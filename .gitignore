@@ -1,0 +1,17 @@
+# Site gerado: vai para a "gaveta" do site, nunca para o código
+_site/
+_cache/
+
+# Arquivos do sistema
+.DS_Store
+__pycache__/
+
+# Proteção: imagens e planilhas nunca entram no código
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.csv
+*.tif
+*.tiff
+*.heic
