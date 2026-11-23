@@ -466,7 +466,7 @@ const rows=r=>`<dl>${r.filter(x=>x[1]).map(([a,b])=>`<div class="row"><dt>${a}</
 /* navegação entre impressos: dois botões pequenos ("Anterior" / "Próximo") no fim da página */
 function navIt(o){
  const nm=x=>esc(x.t)+(x.n?', n.º '+esc(x.n):'')+', '+x.y,
-  L0=D.filter(x=>match(x)),L=L0.includes(o)?L0:D,i=L.indexOf(o),pv=L[i-1],nx=L[i+1];
+  L=D,i=L.indexOf(o),pv=L[i-1],nx=L[i+1];
  if(!pv&&!nx)return '';
  return `<nav class="inav" aria-label="Outros impressos">${pv?`<a class="inb" href="#item-${pv.id}" rel="prev" title="${nm(pv)}" aria-label="Impresso anterior: ${nm(pv)}"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7M19 12H5"/></svg><span>Anterior</span></a>`:'<span></span>'}${nx?`<a class="inb" href="#item-${nx.id}" rel="next" title="${nm(nx)}" aria-label="Próximo impresso: ${nm(nx)}"><span>Próximo</span><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>`:'<span></span>'}</nav>`;
 }
