@@ -840,7 +840,8 @@ function navigate(){const to=location.hash||'#inicio',toItem=to.startsWith('#ite
  const depois=()=>{tb=setTimeout(()=>barra.classList.add('on'),150);carregadas.then(()=>{clearTimeout(tb);barra.classList.remove('on')})};
  /* volta do item para o catálogo: sem a "foto" da transição (no iPhone ela pegava a página pulando);
     a grade aparece já na posição certa, esmaecendo rápido */
- if((to==='#inicio')&&fromHome){run();visiveis();depois();if(!RMQ.matches)app.animate([{opacity:0},{opacity:1}],{duration:260,easing:'ease-out'});return}
+ /* celular/tablet (toque): sempre o caminho simples — o Safari do iPhone fotografava a página no meio da montagem */
+ if(((to==='#inicio')&&fromHome)||matchMedia('(hover:none),(pointer:coarse)').matches){run();visiveis();depois();if(!RMQ.matches)app.animate([{opacity:0},{opacity:1}],{duration:260,easing:'ease-out'});return}
  if(document.startViewTransition&&!RMQ.matches&&!document.getElementById('panel')&&!document.getElementById('mnav')){const vt=document.startViewTransition(()=>{run();return visiveis()});vt.updateCallbackDone.then(depois,depois);vt.ready.catch(()=>{});vt.finished.catch(()=>{})}else{run();visiveis();depois()}}
 
 /* menu no celular */
