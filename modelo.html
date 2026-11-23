@@ -585,7 +585,8 @@ function heroNova(h){const W=h.clientWidth,H=h.clientHeight,RM=matchMedia('(pref
   h.addEventListener('pointerleave',()=>on&&set(false))}
 
  const R=ORDER.filter(key=>L.p[key]).map(key=>{const [cx,cy,w,hh,rot]=L.p[key];return {key,rot,w:w*s,h:hh*s,cx:X(cx),cy:Y(cy)}});
- setTimeout(()=>NV.played=true,0);const STACK=[];const restack=()=>STACK.forEach((e,i)=>e.style.zIndex=1+i);const canDrag=W>=600&&matchMedia('(hover:hover) and (pointer:fine)').matches;
+ setTimeout(()=>NV.played=true,0);const STACK=[];/* impresso já arrastado fica por cima do título (z 20); os outros continuam atrás */
+ const restack=()=>STACK.forEach((e,i)=>e.style.zIndex=(e.classList.contains('solto')?30:1)+i);const canDrag=W>=600&&matchMedia('(hover:hover) and (pointer:fine)').matches;
  R.forEach((r,i)=>{const id=IDS[r.key],o=D.find(x=>x.id===id),rot=r.rot;
   const a=document.createElement('a');a.className='nvp';a.href='#item-'+id;a.title=a.ariaLabel=o?`${o.t}${o.n?', n.º '+o.n:''}, ${o.y}`:id;
   a.innerHTML=`<div class="in"><img src="img/${o?o.c[0]:id}-h.webp" alt="" draggable="false" fetchpriority="high"></div>`;a.style.width=r.w+'px';a.style.height=r.h+'px';{const rr=()=>{let v=(Math.random()*2-1)*1.6;if(Math.abs(v)<.5)v=v<0?-.5:.5;a.style.setProperty('--rot',v.toFixed(2)+'deg')};rr();a.addEventListener('mouseenter',rr);a.addEventListener('focus',rr)}
@@ -593,7 +594,7 @@ function heroNova(h){const W=h.clientWidth,H=h.clientHeight,RM=matchMedia('(pref
   if(!RM&&!NV.played){const q=(Math.random()*2-1);a.querySelector('.in').animate([{transform:`translate(${q*30*s}px,${(-50-Math.random()*40)*s}px) rotate(${q*9}deg) scale(1.06)`,opacity:0},{transform:'none',opacity:1}],{duration:950,delay:120+i*90,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'})}
   let sx,sy,bx2,by2,mv=false;
   if(canDrag)a.addEventListener('pointerdown',ev=>{if(ev.button||ev.pointerType==='touch')return;sx=ev.clientX;sy=ev.clientY;bx2=p.dx;by2=p.dy;mv=false;a.setPointerCapture(ev.pointerId);
-   const m=e=>{const ddx=e.clientX-sx,ddy=e.clientY-sy;if(!mv&&Math.hypot(ddx,ddy)>5){mv=true;a.classList.add('drag');STACK.splice(STACK.indexOf(a),1);STACK.push(a);restack()}if(mv){p.dx=bx2+ddx;p.dy=by2+ddy;put()}};
+   const m=e=>{const ddx=e.clientX-sx,ddy=e.clientY-sy;if(!mv&&Math.hypot(ddx,ddy)>5){mv=true;a.classList.add('drag','solto');STACK.splice(STACK.indexOf(a),1);STACK.push(a);restack()}if(mv){p.dx=bx2+ddx;p.dy=by2+ddy;put()}};
    const u=()=>{a.removeEventListener('pointermove',m);a.removeEventListener('pointerup',u);a.classList.remove('drag');};a.addEventListener('pointermove',m);a.addEventListener('pointerup',u)});
   else a.classList.add('fixo');
   a.addEventListener('click',ev=>{if(mv){ev.preventDefault();mv=false}});a.addEventListener('dragstart',e=>e.preventDefault())});}
