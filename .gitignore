@@ -19,3 +19,6 @@ __pycache__/
 # Documentos de trabalho (não são públicos no site)
 BRIEFING.md
 TEXTOS.md
+
+# Exceção: ícones do site (são públicos)
+!icones/*.png

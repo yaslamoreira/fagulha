@@ -377,10 +377,13 @@ def montar(acervo):
     if os.path.isdir(fontes):
         shutil.rmtree(fontes)
     shutil.copytree(os.path.join(AQUI, "fontes"), fontes)
+    # ícones da aba e do iPhone
+    for nome in ("favicon.svg", "favicon-32.png", "apple-touch-icon.png"):
+        shutil.copy2(os.path.join(AQUI, "icones", nome), os.path.join(SAIDA, nome))
     # GitHub Pages: servir os arquivos como estão
     open(os.path.join(SAIDA, ".nojekyll"), "w").close()
     for nome in os.listdir(SAIDA):
-        if nome not in ("index.html", ".nojekyll", "img", "fonts"):
+        if nome not in ("index.html", ".nojekyll", "img", "fonts", "favicon.svg", "favicon-32.png", "apple-touch-icon.png"):
             caminho = os.path.join(SAIDA, nome)
             shutil.rmtree(caminho) if os.path.isdir(caminho) else os.remove(caminho)
 
