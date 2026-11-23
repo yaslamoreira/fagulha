@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Fagulha – Memória gráfica do São João assuense</title>
+<title>Fagulha</title>
 <meta name="description" content="Fagulha: acervo digital dos impressos efêmeros do São João de Assú (RN).">
 <link rel="preload" href="fonts/xanh-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <!--PRELOAD-->
@@ -560,7 +560,7 @@ function route(){
  const r=h.startsWith('item-')?'inicio':h;
  document.querySelectorAll('header nav a').forEach(a=>{if(a.dataset.r===r)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
  if(h.startsWith('item-'))item(h.slice(5));else if(h==='sobre')sobre();else if(h==='contribuir')contribuir();else inicio();
- {const o=h.startsWith('item-')&&D.find(x=>x.id===h.slice(5));document.title=o?`${o.t}${o.n?', n.º '+o.n:''}, ${o.y} – Fagulha`:h==='sobre'?'Sobre – Fagulha':h==='contribuir'?'Contribuir – Fagulha':'Fagulha – Memória gráfica do São João assuense'}
+ {const o=h.startsWith('item-')&&D.find(x=>x.id===h.slice(5));document.title=o?`Fagulha | ${o.t}${o.n?', n.º '+o.n:''}, ${o.y}`:h==='sobre'?'Fagulha | Sobre':h==='contribuir'?'Fagulha | Contribuir':'Fagulha'}
  if(h==='inicio'&&fromHome&&savedY!==null)window.scrollTo(0,savedY);else window.scrollTo(0,0);
  if(!h.startsWith('item-'))fromHome=false}
 
