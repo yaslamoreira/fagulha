@@ -672,6 +672,8 @@ function contribuir(){
    if(!r.ok)throw new Error(r.status);fim()}
   catch(_){enviando=false;chk();msg.textContent='Não foi possível enviar agora. Aguarde e tente novamente.'}})}
 let savedY=null,fromHome=false;
+/* a posição da rolagem é controlada pelo site (o navegador não restaura sozinho, para não brigar com as transições) */
+if('scrollRestoration' in history)history.scrollRestoration='manual';
 document.addEventListener('click',e=>{if(e.target.closest('a[href^="#item-"]')&&!location.hash.startsWith('#item-')){savedY=scrollY;fromHome=true}},true);
 /* imagens grandes do item: miniatura primeiro, troca pela grande quando carregar; as já carregadas entram direto */
 const PRONTA=new Set();
