@@ -570,6 +570,10 @@ function heroNova(h){const W=h.clientWidth,H=h.clientHeight,RM=matchMedia('(pref
  tl.innerHTML=`<svg viewBox="${vb}" aria-hidden="true">${T.map(([d,sb])=>`<path d="${d}" fill="${sb?'#D9D3C6':'#F3EFE6'}"${sb?' class="sb"':''}/>`).join('')}</svg>`;
  {const g=document.createElement('div');g.className='nvg';h.appendChild(g)}
  tl.style.width=tw+'px';tl.style.height=th+'px';tl.style.transform=`translate(${tx}px,${(H-th)/2}px)`;h.appendChild(tl);
+ /* entrada do título (só na primeira carga): as letras chegam levemente desalinhadas e se acomodam, como no hover */
+ if(!RM&&!NV.played){const rnd=m=>(Math.random()*2-1)*m;tl.querySelectorAll('path').forEach((p,i)=>{const sb=p.getAttribute('fill')==='#D9D3C6';
+  p.style.transformBox='fill-box';p.style.transformOrigin='50% 60%';
+  p.animate([{transform:sb?`translateY(${rnd(2).toFixed(2)}px) rotate(${rnd(3).toFixed(2)}deg)`:`translate(${rnd(2).toFixed(2)}px,${rnd(6).toFixed(2)}px) rotate(${rnd(2.8).toFixed(2)}deg)`,opacity:0},{transform:'none',opacity:1}],{duration:1400,delay:200+(sb?i*12:i*60),easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'})})}
  /* hover no título: letras desalinham de leve, como impressão datilografada */
  if(!RM&&matchMedia('(hover:hover) and (pointer:fine)').matches){
   const LP=[...tl.querySelectorAll('path')],hb0=h.getBoundingClientRect(),tr=tl.getBoundingClientRect();
