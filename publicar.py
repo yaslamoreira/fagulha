@@ -49,7 +49,7 @@ def conferir(itens):
     estranhos = [n for n in os.listdir(SAIDA) if n not in RAIZ_PERMITIDA]
     estranhos += ["fonts/" + n for n in os.listdir(os.path.join(SAIDA, "fonts")) if n not in FONTES_PERMITIDAS]
     ids = {o["id"] for o in itens}
-    padrao = re.compile(r"^(.+?)-(?:[pf]\d+|capa)(?:-(?:t|t2|h))?\.webp$")
+    padrao = re.compile(r"^(.+?)-(?:[pf]\d+(?:e\d+)?|capa)(?:-(?:t|t2|h))?\.webp$")
     for n in os.listdir(os.path.join(SAIDA, "img")):
         m = padrao.match(n)
         if not m or m.group(1) not in ids:

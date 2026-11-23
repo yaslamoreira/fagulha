@@ -224,7 +224,7 @@ def montar(acervo):
     print(f"   {len(linhas)} itens na planilha.")
 
     print("2. Conferindo as imagens de 4_finais…")
-    padrao = re.compile(r"^(.+)_([pf])(\d+)\.png$", re.I)
+    padrao = re.compile(r"^(.+)_([pf])(\d+(?:e\d+)?)\.png$", re.I)  # p01, f01 ou espelho p02e03
     por_codigo = {}
     for nome in sorted(os.listdir(finais)):
         m = padrao.match(nome)
@@ -276,10 +276,16 @@ def montar(acervo):
     itens = []
     for l in linhas:
         cod = l["codigo"].strip()
-        m = re.search(r"_(\d{4})_", "_" + cod + "_")
-        if not m:
-            raise Problema(f"Não achei o ano no código {cod}")
-        ano = int(m.group(1))
+        # ano: do código (1974); se for só a década (197x), usa a década; sem data (xxxx) não é aceito
+        m = re.search(r"_(\d{4})[a-z]?_", "_" + cod + "_")
+        md = re.search(r"_(\d{3})x[a-z]?_", "_" + cod + "_")
+        if m:
+            ano, ano_txt = int(m.group(1)), m.group(1)
+        elif md:
+            ano, ano_txt = int(md.group(1)) * 10, f"[{md.group(1)}-]"
+        else:
+            raise Problema(f"O código {cod} não tem ano nem década (ex.: 1974 ou 197x).\n"
+                           "   O site precisa de pelo menos a década para ordenar e filtrar.")
         conj = l["conjunto"].strip()
         if conj not in CONJUNTOS:
             raise Problema(f"O conjunto '{conj}' do item {cod} não tem rótulo de procedência.\n"
@@ -331,11 +337,13 @@ def montar(acervo):
             "inter": lista_sim(l, INTERVENCOES, "Nenhuma", None),
             "notas": notas,
             "cit": citacao_item(l), "col": NOTA_COLECAO.get(conj, ""),
-            "dec": decada(ano), "y": ano,
+            "dec": decada(ano), "y": ano_txt if not m else ano, "_a": ano,
             "g": paginas, "c": [cid, proporcao(origem_capa)],
         })
 
-    itens.sort(key=lambda o: (o["y"], o["code"]))
+    itens.sort(key=lambda o: (o["_a"], o["code"]))
+    for o in itens:
+        o.pop("_a")
     for k, o in enumerate(itens, 1):
         o["no"] = f"{k:02d}"
 
