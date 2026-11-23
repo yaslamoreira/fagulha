@@ -27,7 +27,7 @@ REPO = "https://github.com/yaslamoreira/fagulha.git"
 GIT_PUB = os.path.join(CACHE, "publicacao.git")   # controle do site publicado (fora do Drive)
 ULTIMA = os.path.join(CACHE, "ultima_publicacao.json")
 
-RAIZ_PERMITIDA = {"index.html", ".nojekyll", "favicon.svg", "favicon-32.png", "apple-touch-icon.png", "img", "fonts"}
+RAIZ_PERMITIDA = {"index.html", ".nojekyll", "favicon.svg", "favicon-32.png", "apple-touch-icon.png", "img", "fonts", "CNAME"}
 FONTES_PERMITIDAS = {"xanh-mono-400.woff2", "schibsted-grotesk.woff2", "OFL-Xanh-Mono.txt", "OFL-Schibsted-Grotesk.txt"}
 
 

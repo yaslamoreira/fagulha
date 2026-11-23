@@ -25,7 +25,10 @@ from datetime import date
 CSV_URL = ("https://docs.google.com/spreadsheets/d/e/2PACX-1vRbjAu3tP5VZ6YOGFkQrt65T6aupTYfNgyGRp-"
            "1Pt12r7UESvGqA7nN3cNaU_P0NEfFvpJ003d_x3Du/pub?gid=345018291&single=true&output=csv")
 
-SITE_URL = "https://yaslamoreira.github.io/fagulha/"
+# Domínio próprio (ex.: "fagulha.com.br"). Vazio = endereço gratuito do GitHub.
+DOMINIO = ""
+
+SITE_URL = f"https://{DOMINIO}/" if DOMINIO else "https://yaslamoreira.github.io/fagulha/"
 
 # Endereço que aparece nas citações. Vazio = mostra "[link]".
 # Quando tiver o domínio próprio, coloque aqui (ex.: "https://fagulha.com.br/").
@@ -392,10 +395,16 @@ def montar(acervo):
     # ícones da aba e do iPhone
     for nome in ("favicon.svg", "favicon-32.png", "apple-touch-icon.png"):
         shutil.copy2(os.path.join(AQUI, "icones", nome), os.path.join(SAIDA, nome))
+    # domínio próprio: o GitHub Pages lê o arquivo CNAME do site publicado
+    cname = os.path.join(SAIDA, "CNAME")
+    if DOMINIO:
+        open(cname, "w").write(DOMINIO + "\n")
+    elif os.path.exists(cname):
+        os.remove(cname)
     # GitHub Pages: servir os arquivos como estão
     open(os.path.join(SAIDA, ".nojekyll"), "w").close()
     for nome in os.listdir(SAIDA):
-        if nome not in ("index.html", ".nojekyll", "img", "fonts", "favicon.svg", "favicon-32.png", "apple-touch-icon.png"):
+        if nome not in ("index.html", ".nojekyll", "img", "fonts", "favicon.svg", "favicon-32.png", "apple-touch-icon.png", "CNAME"):
             caminho = os.path.join(SAIDA, nome)
             shutil.rmtree(caminho) if os.path.isdir(caminho) else os.remove(caminho)
 
