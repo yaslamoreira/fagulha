@@ -38,6 +38,14 @@ CONJUNTOS = {
     "c03": "Material avulso cedido por colaborador da pesquisa",
 }
 
+# Nota no fim da citação de cada item, por conjunto (sem nota = coleção não identificada).
+NOTA_COLECAO = {
+    "c01": "Coleção de Ivan Pinheiro Bezerra.",
+}
+
+# Local de publicação dos impressos na citação (entre colchetes: não consta no impresso).
+LOCAL_CITACAO = "[Assú]"
+
 AVISO_PARCIAL = "Nem todas as páginas do impresso foram fotografadas."
 
 # Tamanhos das imagens (em pixels)
@@ -124,6 +132,50 @@ def decada(ano):
     if ano == 2000:
         return "Ano de 2000"
     return str(ano // 10 * 10)
+
+
+# ---------------------------------------------------------------- citação (NBR 6023)
+
+MESES = ["jan.", "fev.", "mar.", "abr.", "maio", "jun.", "jul.", "ago.", "set.", "out.", "nov.", "dez."]
+ARTIGOS = {"o", "a", "os", "as", "um", "uma", "uns", "umas"}
+
+
+def entrada_titulo(titulo):
+    """Primeira palavra em maiúsculas (e a seguinte, se a primeira for artigo ou monossílabo)."""
+    palavras = titulo.split(" ")
+    n = 1
+    nucleo = re.sub(r"[^\w]", "", palavras[0])
+    if len(palavras) > 1 and (nucleo.lower() in ARTIGOS or len(nucleo) <= 1):
+        n = 2
+    return " ".join([w.upper() for w in palavras[:n]] + palavras[n:])
+
+
+def data_citacao(data):
+    """14/06/1976 -> 14 jun. 1976; [24]/06/1974 -> [24] jun. 1974; 06/[1984] -> jun. [1984]"""
+    partes = [p.strip() for p in data.split("/")]
+
+    def mes(p):
+        num = re.sub(r"[^\d]", "", p)
+        if not num or not 1 <= int(num) <= 12:
+            raise Problema(f"Data fora do padrão na planilha: {data}")
+        return p.replace(num, MESES[int(num) - 1])
+
+    def dia(p):
+        return re.sub(r"\b0(\d)", r"\1", p)
+
+    if len(partes) == 3:
+        return f"{dia(partes[0])} {mes(partes[1])} {partes[2]}"
+    if len(partes) == 2:
+        return f"{mes(partes[0])} {partes[1]}"
+    return partes[0]
+
+
+def citacao_item(l):
+    """Parte inicial da citação; o site completa com In:, endereço e data de acesso."""
+    t = entrada_titulo(l["titulo"].strip())
+    num = limpar(l["numero"])
+    elementos = [LOCAL_CITACAO] + ([f"n. {num}"] if num else []) + [data_citacao(l["data"].strip())]
+    return f"{t}. " + ", ".join(elementos) + "."
 
 
 # ---------------------------------------------------------------- imagens
@@ -278,6 +330,7 @@ def montar(acervo):
             "ig": l["integridade"].strip(),
             "inter": lista_sim(l, INTERVENCOES, "Nenhuma", None),
             "notas": notas,
+            "cit": citacao_item(l), "col": NOTA_COLECAO.get(conj, ""),
             "dec": decada(ano), "y": ano,
             "g": paginas, "c": [cid, proporcao(origem_capa)],
         })
