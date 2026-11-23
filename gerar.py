@@ -40,6 +40,7 @@ AVISO_PARCIAL = "Nem todas as páginas do impresso foram fotografadas."
 PAGINA_LADO_MAIOR = 1800      # páginas e faces no visualizador
 MINIATURA_LARGURA = 480       # capas na grade e na abertura (1x)
 MINIATURA_2X = 960            # versão para telas de alta densidade (2x)
+ABERTURA_LADO_MAIOR = 1000    # peças da abertura
 
 RECURSOS = [  # (coluna, rótulo)
     ("letreiramento_manual", "Letreiramento manual"),
@@ -211,6 +212,8 @@ def montar(acervo):
         assinatura = [os.path.relpath(origem, acervo), st.st_size, int(st.st_mtime), modo, tamanho]
         esperados.add(nome_saida)
         novo_registro[nome_saida] = assinatura
+        if nome_saida in [os.path.basename(t[1]) for t in tarefas]:
+            return
         if registro.get(nome_saida) != assinatura or not os.path.exists(destino):
             tarefas.append((origem, destino, modo, tamanho))
 
@@ -230,6 +233,7 @@ def montar(acervo):
             origem = os.path.join(finais, nome)
             pid = ident(nome[:-4])
             pedir(origem, pid + ".webp", "lado", PAGINA_LADO_MAIOR)
+            pedir(origem, pid + "-t.webp", "largura", MINIATURA_LARGURA)  # aparece antes da grande
             paginas.append([pid, proporcao(origem)])
         # capa: arquivo de capa, se houver; senão, a primeira imagem
         if cod in capas:
@@ -238,8 +242,10 @@ def montar(acervo):
         else:
             origem_capa = os.path.join(finais, por_codigo[cod][0])
             cid = paginas[0][0]
-        pedir(origem_capa, cid + "-t.webp", "largura", MINIATURA_LARGURA)
+        if cid != paginas[0][0]:
+            pedir(origem_capa, cid + "-t.webp", "largura", MINIATURA_LARGURA)
         pedir(origem_capa, cid + "-t2.webp", "largura", MINIATURA_2X)
+        pedir(origem_capa, cid + "-h.webp", "lado", ABERTURA_LADO_MAIOR)
 
         rec = [rot for c, rot in RECURSOS if sim(l.get(c))]
         qtd_cores = l["cores_qtd"].strip()
@@ -300,21 +306,24 @@ def montar(acervo):
         raise Problema("O arquivo modelo.html está sem o marcador /*DADOS*/[].")
     html = modelo.replace("/*DADOS*/[]", dados).replace("{{SITE_URL}}", SITE_URL)
     # pré-carrega as capas da abertura (prioridade no carregamento)
-    m = re.search(r"const PICK=\[(.*?)\]", modelo)
-    escolhidas = re.findall(r"'([^']+)'", m.group(1)) if m else []
+    m = re.search(r"IDS=\{(.*?)\}", modelo)
+    escolhidas = re.findall(r":'([^']+)'", m.group(1)) if m else []
     capas_ab = {o["id"]: o["c"][0] for o in itens}
     preload = "\n".join(
-        f'<link rel="preload" as="image" href="img/{capas_ab[i]}-t.webp" '
-        f'imagesrcset="img/{capas_ab[i]}-t.webp 480w, img/{capas_ab[i]}-t2.webp 960w" '
-        f'imagesizes="240px" fetchpriority="high">'
+        f'<link rel="preload" as="image" href="img/{capas_ab[i]}-h.webp" fetchpriority="high">'
         for i in escolhidas if i in capas_ab)
     html = html.replace("<!--PRELOAD-->", preload)
     with open(os.path.join(SAIDA, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
+    # fontes hospedadas no próprio site (com as licenças)
+    fontes = os.path.join(SAIDA, "fonts")
+    if os.path.isdir(fontes):
+        shutil.rmtree(fontes)
+    shutil.copytree(os.path.join(AQUI, "fontes"), fontes)
     # GitHub Pages: servir os arquivos como estão
     open(os.path.join(SAIDA, ".nojekyll"), "w").close()
     for nome in os.listdir(SAIDA):
-        if nome not in ("index.html", ".nojekyll", "img"):
+        if nome not in ("index.html", ".nojekyll", "img", "fonts"):
             caminho = os.path.join(SAIDA, nome)
             shutil.rmtree(caminho) if os.path.isdir(caminho) else os.remove(caminho)
 
