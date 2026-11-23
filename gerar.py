@@ -26,13 +26,13 @@ CSV_URL = ("https://docs.google.com/spreadsheets/d/e/2PACX-1vRbjAu3tP5VZ6YOGFkQr
            "1Pt12r7UESvGqA7nN3cNaU_P0NEfFvpJ003d_x3Du/pub?gid=345018291&single=true&output=csv")
 
 # Domínio próprio (ex.: "fagulha.com.br"). Vazio = endereço gratuito do GitHub.
-DOMINIO = ""
+DOMINIO = "acervofagulha.com.br"
 
 SITE_URL = f"https://{DOMINIO}/" if DOMINIO else "https://yaslamoreira.github.io/fagulha/"
 
 # Endereço que aparece nas citações. Vazio = mostra "[link]".
 # Quando tiver o domínio próprio, coloque aqui (ex.: "https://fagulha.com.br/").
-LINK_CITACAO = ""
+LINK_CITACAO = "https://acervofagulha.com.br/"
 
 # Endereço do formulário no Formspree (ex.: "https://formspree.io/f/abcdwxyz").
 # Vazio = formulário em modo de teste (não envia nada).
