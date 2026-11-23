@@ -592,12 +592,7 @@ function heroNova(h){const W=h.clientWidth,H=h.clientHeight,RM=matchMedia('(pref
    const m=e=>{const ddx=e.clientX-sx,ddy=e.clientY-sy;if(!mv&&Math.hypot(ddx,ddy)>5){mv=true;a.classList.add('drag');STACK.splice(STACK.indexOf(a),1);STACK.push(a);restack()}if(mv){p.dx=bx2+ddx;p.dy=by2+ddy;put()}};
    const u=()=>{a.removeEventListener('pointermove',m);a.removeEventListener('pointerup',u);a.classList.remove('drag');};a.addEventListener('pointermove',m);a.addEventListener('pointerup',u)});
   else a.classList.add('fixo');
-  a.addEventListener('click',ev=>{if(mv){ev.preventDefault();mv=false}});a.addEventListener('dragstart',e=>e.preventDefault())});
- /* entrada (só na primeira carga): quando cada impresso pousa na "mesa", as letras mais próximas dele
-    são empurradas de leve para longe e voltam ao lugar; quanto mais perto, maior o empurrão */
- if(!RM&&!NV.first){NV.first=1;const hb=h.getBoundingClientRect(),L2=[...tl.querySelectorAll('path')].map(p=>{const b=p.getBoundingClientRect();p.style.transformBox='fill-box';p.style.transformOrigin='50% 60%';return {p,x:b.left-hb.left+b.width/2,y:b.top-hb.top+b.height/2}}),RAIO=Math.max(W,H)*.45;
-  R.forEach((r,i)=>{const t=120+i*90+380;L2.forEach(l=>{const dx=l.x-r.cx,dy=l.y-r.cy,d=Math.hypot(dx,dy);if(d>RAIO)return;const f=1-d/RAIO,k=f*f*5/(d||1);
-   l.p.animate([{transform:'none'},{transform:`translate(${(dx*k).toFixed(2)}px,${(dy*k).toFixed(2)}px) rotate(${((Math.random()*2-1)*f*2).toFixed(2)}deg)`,offset:.18},{transform:'none'}],{duration:900,delay:t,easing:'cubic-bezier(.22,1,.36,1)',composite:'add'})})})}}
+  a.addEventListener('click',ev=>{if(mv){ev.preventDefault();mv=false}});a.addEventListener('dragstart',e=>e.preventDefault())});}
 let rz;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(hero,150)});
 
 const isHome=()=>!location.hash||location.hash==='#inicio';
