@@ -625,7 +625,10 @@ function grid(){
  if(anima){let k=0;g.querySelectorAll('.card').forEach(c=>{const p=ANT.get(c.getAttribute('href')),b=c.getBoundingClientRect();
   if(p){const dx=p[0]-b.left,dy=p[1]-b.top;if(dx||dy)c.animate([{translate:`${dx}px ${dy}px`},{translate:'0 0'}],{duration:500,easing:'cubic-bezier(.22,1,.36,1)'})}
   else if(b.top<innerHeight&&b.bottom>0)c.animate([{opacity:0},{opacity:1}],{duration:450,delay:150+Math.min(k++,6)*60,easing:'ease-out',fill:'backwards'})})}
- g.querySelectorAll('.card').forEach(c=>{const r=()=>{let v=(Math.random()*2-1)*1.2;if(Math.abs(v)<.4)v=v<0?-.4:.4;c.style.setProperty('--rot',v.toFixed(2)+'deg')};r();c.addEventListener('mouseenter',r);c.addEventListener('focus',r)});
+ g.querySelectorAll('.card').forEach(c=>{const r=()=>{let v=(Math.random()*2-1)*1.2;if(Math.abs(v)<.4)v=v<0?-.4:.4;c.style.setProperty('--rot',v.toFixed(2)+'deg')};r();c.addEventListener('mouseenter',r);c.addEventListener('focus',r);
+  /* intenção de abrir (dedo encostou, mouse em cima ou foco): já começa a baixar a primeira página do item */
+  const pre=()=>{const o=D.find(x=>'#item-'+x.id===c.getAttribute('href'));if(!o)return;const g0=o.g[0][0];carregar(`img/${g0}-t.webp`);carregar(`img/${g0}.webp`)};
+  c.addEventListener('pointerdown',pre,{once:true});c.addEventListener('mouseenter',pre,{once:true});c.addEventListener('focus',pre,{once:true})});
 }
 function mas(){
  const g=document.getElementById('grid');if(!g)return;const C=[...g.querySelectorAll('.card')];if(!C.length){g.style.height='';return}
@@ -827,7 +830,7 @@ function navigate(){const to=location.hash||'#inicio',toItem=to.startsWith('#ite
  let carregadas=Promise.resolve();
  const visiveis=()=>{const im=[...document.querySelectorAll('#app img')].filter(i=>{const b=i.getBoundingClientRect();return b.bottom>0&&b.top<innerHeight&&b.width>0});im.forEach(i=>i.loading='eager');
   carregadas=Promise.race([Promise.all(im.map(i=>i.complete?0:new Promise(r=>{i.addEventListener('load',r,{once:true});i.addEventListener('error',r,{once:true})}))),new Promise(r=>setTimeout(r,8000))]);
-  return Promise.race([Promise.all(im.map(i=>i.decode?i.decode().catch(()=>{}):0)),new Promise(r=>setTimeout(r,120))])};
+  return Promise.race([Promise.all(im.map(i=>i.decode?i.decode().catch(()=>{}):0)),new Promise(r=>setTimeout(r,toItem?400:120))])};
  const barra=document.getElementById('carregando');let tb;
  const depois=()=>{tb=setTimeout(()=>barra.classList.add('on'),150);carregadas.then(()=>{clearTimeout(tb);barra.classList.remove('on')})};
  /* volta do item para o catálogo: sem a "foto" da transição (no iPhone ela pegava a página pulando);
