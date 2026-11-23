@@ -29,7 +29,7 @@ SITE_URL = "https://yaslamoreira.github.io/fagulha/"
 
 # Endereço do formulário no Formspree (ex.: "https://formspree.io/f/abcdwxyz").
 # Vazio = formulário em modo de teste (não envia nada).
-FORM_URL = ""
+FORM_URL = "https://formspree.io/f/mljbogpa"
 
 # Rótulo de procedência para cada conjunto (coluna "conjunto").
 # Para um conjunto novo, acrescente uma linha aqui.

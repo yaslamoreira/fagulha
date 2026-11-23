@@ -543,7 +543,7 @@ function contribuir(){
   try{const dados=new FormData(fm);dados.append('_subject','Fagulha: '+fm.assunto.value);
    const r=await fetch(FORM_URL,{method:'POST',body:dados,headers:{Accept:'application/json'}});
    if(!r.ok)throw new Error(r.status);fim()}
-  catch(_){enviando=false;chk();msg.textContent='Não foi possível enviar agora. Confira a conexão e tente de novo em alguns minutos.'}})}
+  catch(_){enviando=false;chk();msg.textContent='Não foi possível enviar agora. Aguarde e tente novamente.'}})}
 let savedY=null,fromHome=false;
 document.addEventListener('click',e=>{if(e.target.closest('a[href^="#item-"]')&&!location.hash.startsWith('#item-')){savedY=scrollY;fromHome=true}},true);
 function upgrade(root){root.querySelectorAll('img[data-full]').forEach(im=>{const f=im.dataset.full;im.removeAttribute('data-full');const n=new Image();n.onload=()=>{im.src=f};n.src=f})}
