@@ -470,12 +470,22 @@ header{view-transition-name:none}
 .qclr[hidden]{display:none}.qclr:hover{color:var(--tinta)}
 @media(prefers-reduced-motion:no-preference){.qclr{animation:vt-entra 240ms var(--suave);transition:color 240ms var(--suave)}}
 @media(max-width:760px){.qclr{display:none}}
+
+/* estados de carregamento e erro */
+.grid.mas .card .img{background:var(--papel-escuro);transition:background-color 400ms var(--suave),transform 400ms var(--suave)}
+.grid.mas .card .img img{opacity:0;transition:opacity 400ms var(--suave),filter 400ms var(--suave)}
+.grid.mas .card .img.ok{background-color:transparent}.grid.mas .card .img.ok img{opacity:1}
+.grid.mas .card .img.erro{position:relative;color:var(--tinta-clara)}.grid.mas .card .img.erro img{display:none}
+.grid.mas .card .img.erro .ic{position:absolute;inset:0;margin:auto}
+@media(prefers-reduced-motion:reduce){.grid.mas .card .img,.grid.mas .card .img img{transition:none}}
+.nf .btn{display:inline-flex;align-items:center;text-decoration:none}
+.nojs{max-width:24em;margin:0 auto;padding:96px 16px;text-align:center;color:var(--tinta-media)}
 </style></head><body>
 <header><div class="wrap">
 <a class="logo" href="#inicio" aria-label="Fagulha, página inicial"><svg viewBox="0 0 125 125" width="32" height="32" fill="currentColor" aria-hidden="true"><path d="M54.8125 45.875V39.75C54.8125 33.2917 56.7917 28.2292 60.75 24.5625C64.1667 21.4375 68.2708 19.875 73.0625 19.875C77.0208 19.875 80.3542 20.8542 83.0625 22.8125C83.8125 23.3958 84.5625 24.2292 85.3125 25.3125C86.6458 27.1875 87.3125 29.0417 87.3125 30.875C87.3125 31.875 87.1042 32.7917 86.6875 33.625C85.5208 35.9167 83.7292 37.0625 81.3125 37.0625C79.6042 37.0625 78.1458 36.3958 76.9375 35.0625C76.0208 33.9792 75.5625 32.7083 75.5625 31.25C75.5625 29.2083 76.3333 27.6875 77.875 26.6875C76.7083 25.9792 75.125 25.625 73.125 25.625C69.125 25.625 66.25 27.5417 64.5 31.375C63.5 33.5 63 36.3333 63 39.875V45.875H78.75V51.75H63V88.75C63 91.7917 63.5625 93.7917 64.6875 94.75C65.6875 95.5833 68.1875 96.0417 72.1875 96.125V100.75H45.3125V96.125C49.5625 96.0417 52.1667 95.5417 53.125 94.625C54.25 93.5833 54.8125 91.625 54.8125 88.75V51.75H43.4375V45.875H54.8125ZM62.3125 0C73.1042 0 83.3125 2.83333 92.9375 8.5C101.271 13.4167 108.104 19.7917 113.438 27.625C120.604 38.2083 124.188 49.7083 124.188 62.125C124.188 73.0833 121.354 83.3542 115.688 92.9375C110.771 101.271 104.396 108.104 96.5625 113.438C85.9792 120.604 74.4583 124.188 62 124.188C51.0833 124.188 40.8333 121.354 31.25 115.688C22.9167 110.771 16.0833 104.396 10.75 96.5625C3.58333 86.0208 0 74.5 0 62C0 52.625 2.125 43.6667 6.375 35.125C12.2083 23.3333 21 14.1667 32.75 7.625C41.875 2.54167 51.7292 0 62.3125 0ZM61.9375 6.375C52.7292 6.375 44 8.66667 35.75 13.25C28.3333 17.3333 22.1458 22.75 17.1875 29.5C9.97917 39.375 6.375 50.2708 6.375 62.1875C6.375 71.4375 8.66667 80.1875 13.25 88.4375C17.3333 95.8542 22.75 102.042 29.5 107C39.3333 114.208 50.2292 117.812 62.1875 117.812C71.3958 117.812 80.1458 115.521 88.4375 110.938C95.8542 106.854 102.021 101.438 106.938 94.6875C114.188 84.8125 117.812 73.9375 117.812 62.0625C117.812 54.0625 116.083 46.375 112.625 39C107.625 28.375 99.9583 20 89.625 13.875C81.125 8.875 71.8958 6.375 61.9375 6.375Z"/></svg></a>
 <nav><a href="#inicio" data-r="inicio">Acervo</a><a href="#sobre" data-r="sobre">Sobre</a><a href="#contribuir" data-r="contribuir">Contribuir</a></nav><button class="mbtn" type="button" id="mbtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mnav"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
 </div></header>
-<main><div id="app"></div></main>
+<main><div id="app"></div><noscript><p class="nojs">Para ver o acervo, ative o JavaScript no seu navegador.</p></noscript></main>
 <footer><div class="wrap"><p class="fid"><span class="fnm">Acervo Fagulha</span><span>2026 © Todos os direitos reservados</span></p><span class="fsym"><svg viewBox="0 0 125 125" width="32" height="32" fill="currentColor" aria-hidden="true"><path d="M54.8125 45.875V39.75C54.8125 33.2917 56.7917 28.2292 60.75 24.5625C64.1667 21.4375 68.2708 19.875 73.0625 19.875C77.0208 19.875 80.3542 20.8542 83.0625 22.8125C83.8125 23.3958 84.5625 24.2292 85.3125 25.3125C86.6458 27.1875 87.3125 29.0417 87.3125 30.875C87.3125 31.875 87.1042 32.7917 86.6875 33.625C85.5208 35.9167 83.7292 37.0625 81.3125 37.0625C79.6042 37.0625 78.1458 36.3958 76.9375 35.0625C76.0208 33.9792 75.5625 32.7083 75.5625 31.25C75.5625 29.2083 76.3333 27.6875 77.875 26.6875C76.7083 25.9792 75.125 25.625 73.125 25.625C69.125 25.625 66.25 27.5417 64.5 31.375C63.5 33.5 63 36.3333 63 39.875V45.875H78.75V51.75H63V88.75C63 91.7917 63.5625 93.7917 64.6875 94.75C65.6875 95.5833 68.1875 96.0417 72.1875 96.125V100.75H45.3125V96.125C49.5625 96.0417 52.1667 95.5417 53.125 94.625C54.25 93.5833 54.8125 91.625 54.8125 88.75V51.75H43.4375V45.875H54.8125ZM62.3125 0C73.1042 0 83.3125 2.83333 92.9375 8.5C101.271 13.4167 108.104 19.7917 113.438 27.625C120.604 38.2083 124.188 49.7083 124.188 62.125C124.188 73.0833 121.354 83.3542 115.688 92.9375C110.771 101.271 104.396 108.104 96.5625 113.438C85.9792 120.604 74.4583 124.188 62 124.188C51.0833 124.188 40.8333 121.354 31.25 115.688C22.9167 110.771 16.0833 104.396 10.75 96.5625C3.58333 86.0208 0 74.5 0 62C0 52.625 2.125 43.6667 6.375 35.125C12.2083 23.3333 21 14.1667 32.75 7.625C41.875 2.54167 51.7292 0 62.3125 0ZM61.9375 6.375C52.7292 6.375 44 8.66667 35.75 13.25C28.3333 17.3333 22.1458 22.75 17.1875 29.5C9.97917 39.375 6.375 50.2708 6.375 62.1875C6.375 71.4375 8.66667 80.1875 13.25 88.4375C17.3333 95.8542 22.75 102.042 29.5 107C39.3333 114.208 50.2292 117.812 62.1875 117.812C71.3958 117.812 80.1458 115.521 88.4375 110.938C95.8542 106.854 102.021 101.438 106.938 94.6875C114.188 84.8125 117.812 73.9375 117.812 62.0625C117.812 54.0625 116.083 46.375 112.625 39C107.625 28.375 99.9583 20 89.625 13.875C81.125 8.875 71.8958 6.375 61.9375 6.375Z"/></svg></span></div></footer>
 <script>
 {
@@ -542,6 +552,7 @@ function openPanel(){
 const RV_SEEN=new Set();
 const RV='IntersectionObserver' in window?new IntersectionObserver(es=>{let k=0;es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;RV.unobserve(el);el.style.transitionDelay=Math.min(k++,6)*120+'ms';el.classList.add('vis');const h=el.getAttribute('href');if(h)RV_SEEN.add(h);setTimeout(()=>el.style.transitionDelay='',2200)})},{rootMargin:'0px 0px -10% 0px'}):null;
 function revelar(){if(!RV||matchMedia('(prefers-reduced-motion:reduce)').matches)return;document.querySelectorAll('#grid .card,section.sb,.cpage .lead,.cpage form,.inav').forEach(el=>{if(el.classList.contains('rv'))return;const h=el.getAttribute('href');if(h&&RV_SEEN.has(h))return;const b=el.getBoundingClientRect();if(b.top<innerHeight&&b.bottom>0){if(h)RV_SEEN.add(h);return}el.classList.add('rv');RV.observe(el)})}
+const ICO_ERRO='<svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 2 20 20"/><path d="M10.41 10.41a2 2 0 1 1-2.83-2.83"/><line x1="13.5" x2="6" y1="13.5" y2="21"/><line x1="18" x2="21" y1="12" y2="15"/><path d="M3.59 3.59A1.99 1.99 0 0 0 3 5v14a2 2 0 0 0 2 2h14c.55 0 1.052-.22 1.41-.59"/><path d="M21 15V5a2 2 0 0 0-2-2H9"/></svg>';
 function grid(){
  const L=D.filter(o=>match(o));
  {const c=document.getElementById('count');if(c)c.textContent=cnt(L.length)}
@@ -552,6 +563,9 @@ function grid(){
  g.classList.add('mas');g.classList.remove('on');
  g.innerHTML=L.length?L.map(o=>`<a class="card" href="#item-${o.id}"><div class="img" style="--r:${rat(o)}"><img src="img/${o.c[0]}-t.webp" srcset="img/${o.c[0]}-t.webp 480w, img/${o.c[0]}-t2.webp 960w" sizes="(max-width:559px) 50vw, 25vw" alt="" loading="lazy" decoding="async"></div><div class="cap"><b>${esc(o.t)}${o.n?', n.º '+esc(o.n):''}</b><small>${o.y}</small></div></a>`).join(''):'<div class="empty" role="status"><svg class="ic" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-1.73V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></svg><p>Nenhum impresso corresponde<br>à busca e aos filtros.</p></div>';
  mas();requestAnimationFrame(()=>{g.classList.add('on');revelar()});
+ /* imagem carregando: retângulo papel-escuro; ao carregar, a imagem esmaece por cima; se falhar, fica o retângulo com um ícone */
+ g.querySelectorAll('.card .img img').forEach(im=>{const bx=im.parentNode,ok=()=>bx.classList.add('ok'),er=()=>{bx.classList.add('erro');bx.insertAdjacentHTML('beforeend',ICO_ERRO)};
+  if(im.complete){im.naturalWidth?ok():er()}else{im.addEventListener('load',ok,{once:true});im.addEventListener('error',er,{once:true})}});
  /* quem continua desliza da posição antiga até a nova; quem chega aparece com um esmaecimento */
  if(anima){let k=0;g.querySelectorAll('.card').forEach(c=>{const p=ANT.get(c.getAttribute('href')),b=c.getBoundingClientRect();
   if(p){const dx=p[0]-b.left,dy=p[1]-b.top;if(dx||dy)c.animate([{translate:`${dx}px ${dy}px`},{translate:'0 0'}],{duration:500,easing:'cubic-bezier(.22,1,.36,1)'})}
@@ -638,7 +652,7 @@ function navIt(o){
 const hoje=()=>{const d=new Date(),m=['jan.','fev.','mar.','abr.','maio','jun.','jul.','ago.','set.','out.','nov.','dez.'];return `${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`};
 function item(id){
  setHome();
- const o=D.find(x=>x.id===id);if(!o){inicio();return}
+ const o=D.find(x=>x.id===id);if(!o){indisponivel();return}
  const n=o.g.length, faces=o.u==='Faces', un=faces?'Face':'Página', R=Math.max(...o.g.map(x=>x[1]));
  const kv=r=>r.filter(x=>x[1]).map(([a,b])=>`<div class="kv"><dt>${a}</dt><dd>${esc(b)}</dd></div>`).join('');
  app.innerHTML=wrap(`<div class="ilay">
@@ -690,6 +704,8 @@ function item(id){
   let x0=null;stage.onpointerdown=e=>{x0=e.clientX};stage.onpointerup=e=>{if(x0===null)return;const dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1));else if(e.clientX>stage.getBoundingClientRect().left+stage.clientWidth/2)go(cur+1);else go(cur-1)};
  }
  sync()}
+/* link para um impresso que não está (mais) no acervo */
+function indisponivel(){app.innerHTML=wrap(`<div class="page cpage nf"><h1>Impresso indisponível</h1><p class="lead">Este impresso não está mais disponível no acervo.</p><a class="btn" href="#inicio">Ver o acervo</a></div>`);document.title='Fagulha | Impresso indisponível'}
 function sobre(){
  const S=[
  ['O acervo','<p>O acervo Fagulha reúne impressos ligados ao São João de Assú, no sertão do Rio Grande do Norte, que circularam ao longo do século XX. Entre jornais juninos, folhetos e programações, esses materiais contam um pouco de como era a festa e a vida na cidade, das sátiras sobre o cotidiano ao jeito de imprimir de cada época.</p><p>O projeto nasceu de uma pesquisa em design no campo da Memória Gráfica Brasileira. Feitos para durar pouco, esses impressos chegaram até hoje graças a moradores que os guardaram em suas coleções. O que está reunido aqui é um recorte, mas que já revela um design feito no interior, muitas vezes à mão e de forma coletiva, que também faz parte da história do design brasileiro.</p>'],
@@ -708,13 +724,13 @@ function contribuir(){
  const chk=()=>{fb.disabled=enviando||![...fm.elements].filter(x=>x.required).every(x=>x.value.trim()&&(x.type!=='email'||okEmail(x.value)))};
  fm.addEventListener('input',()=>{msg.textContent='';chk()});fm.addEventListener('change',chk);
  fm.addEventListener('submit',async e=>{e.preventDefault();chk();if(fb.disabled)return;
-  const fim=()=>{fm.reset();enviando=false;chk();msg.textContent='Recebido! Obrigada por compartilhar. Você terá um retorno pelo e-mail informado.'};
+  const fim=()=>{fm.reset();enviando=false;fb.textContent='Enviar';chk();msg.textContent='Recebido! Obrigada por compartilhar. Você terá um retorno pelo e-mail informado.'};
   if(!FORM_URL||FORM_URL.startsWith('{{')){fim();return}
-  enviando=true;chk();
+  enviando=true;chk();fb.textContent='Enviando…';
   try{const dados=new FormData(fm);dados.append('_subject','Fagulha: '+fm.assunto.value);
    const r=await fetch(FORM_URL,{method:'POST',body:dados,headers:{Accept:'application/json'}});
    if(!r.ok)throw new Error(r.status);fim()}
-  catch(_){enviando=false;chk();msg.textContent='Não foi possível enviar agora. Aguarde e tente novamente.'}})}
+  catch(_){enviando=false;fb.textContent='Enviar';chk();msg.textContent='Não foi possível enviar agora. Aguarde e tente novamente.'}})}
 let savedY=null,fromHome=false;
 /* a posição da rolagem é controlada pelo site (o navegador não restaura sozinho, para não brigar com as transições) */
 if('scrollRestoration' in history)history.scrollRestoration='manual';
@@ -733,7 +749,7 @@ function route(){
  const r=h.startsWith('item-')?'inicio':h;
  document.querySelectorAll('header nav a').forEach(a=>{if(a.dataset.r===r)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
  if(h.startsWith('item-'))item(h.slice(5));else if(h==='sobre')sobre();else if(h==='contribuir')contribuir();else inicio();
- {const o=h.startsWith('item-')&&D.find(x=>x.id===h.slice(5));document.title=o?`Fagulha | ${o.t}${o.n?', n.º '+o.n:''}, ${o.y}`:h==='sobre'?'Fagulha | Sobre':h==='contribuir'?'Fagulha | Contribuir':'Fagulha'}
+ {const o=h.startsWith('item-')&&D.find(x=>x.id===h.slice(5));document.title=o?`Fagulha | ${o.t}${o.n?', n.º '+o.n:''}, ${o.y}`:h.startsWith('item-')?'Fagulha | Impresso indisponível':h==='sobre'?'Fagulha | Sobre':h==='contribuir'?'Fagulha | Contribuir':'Fagulha'}
  if(h==='inicio'&&fromHome&&savedY!==null)window.scrollTo({top:savedY,behavior:'instant'});else window.scrollTo({top:0,behavior:'instant'});
  revelar();
  if(!h.startsWith('item-'))fromHome=false}
