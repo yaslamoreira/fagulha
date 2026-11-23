@@ -656,10 +656,10 @@ function heroNova(h){const W=h.clientWidth,H=h.clientHeight,RM=matchMedia('(pref
  tl.innerHTML=`<svg viewBox="${vb}" aria-hidden="true">${T.map(([d,sb])=>`<path d="${d}" fill="${sb?'#D9D3C6':'#F3EFE6'}"${sb?' class="sb"':''}/>`).join('')}</svg>`;
  {const g=document.createElement('div');g.className='nvg';h.appendChild(g)}
  tl.style.width=tw+'px';tl.style.height=th+'px';tl.style.transform=`translate(${tx}px,${(H-th)/2}px)`;h.appendChild(tl);
- /* entrada (só na primeira carga): o mesmo desalinhado do hover, com o dobro da força (200%), enquanto os impressos caem; depois as letras voltam ao lugar */
- if(!RM&&!NV.played){const rnd=m=>(Math.random()*2-1)*m*2,P=[...tl.querySelectorAll('path')];
+ /* entrada (só na primeira carga): o mesmo desalinhado do hover, bem sutil (80% da força, por pouco tempo), enquanto os impressos caem; depois as letras voltam ao lugar */
+ if(!RM&&!NV.played){const rnd=m=>(Math.random()*2-1)*m*.8,P=[...tl.querySelectorAll('path')];
   const mexe=v=>P.forEach((p,i)=>{const sb=p.getAttribute('fill')==='#D9D3C6';p.style.transitionDelay=(sb?i*8:i*25)+'ms';p.style.transform=v?(sb?`translateY(${rnd(1).toFixed(2)}px) rotate(${rnd(2).toFixed(2)}deg)`:`translate(${rnd(1).toFixed(2)}px,${rnd(3).toFixed(2)}px) rotate(${rnd(1.4).toFixed(2)}deg)`):''});
-  setTimeout(()=>mexe(true),500);setTimeout(()=>mexe(false),1800)}
+  setTimeout(()=>mexe(true),500);setTimeout(()=>mexe(false),850)}
 
  /* hover no título: letras desalinham de leve, como impressão datilografada */
  if(!RM&&matchMedia('(hover:hover) and (pointer:fine)').matches){
