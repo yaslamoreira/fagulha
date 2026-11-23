@@ -527,12 +527,23 @@ function sobre(){
  app.innerHTML=wrap(`<div class="page"><h1>Sobre</h1>`+S.map(([t,c])=>`<section class="sb"><h2>${t}</h2><div class="sbt">${c}</div></section>`).join('')+'</div>')}
 function contribuir(){
  app.innerHTML=wrap(`<div class="page cpage"><h1>Contribuir</h1><p class="lead">Guarda impressos do São João de Assú, lembra de alguma história sobre eles ou encontrou uma informação que precise de correção? Compartilhe pelo formulário abaixo. Ele também pode ser usado para pedir a retirada de conteúdos que envolvam você ou sua família.</p>
- <form id="fm"><label>Nome<input name="n" autocomplete="name" required></label><label>E-mail<input name="e" type="email" autocomplete="email" required></label>
- <label>O que você deseja?<select name="a" required><option value="" disabled selected>Selecione</option><option>Compartilhar impressos</option><option>Contar uma lembrança</option><option>Sugerir uma correção</option><option>Pedir a retirada de um conteúdo</option></select></label>
- <label>Mensagem<textarea name="m" required placeholder="Conte com detalhes o que deseja compartilhar ou solicitar."></textarea></label><button class="btn" type="submit" id="fbtn" disabled>Enviar</button><p class="note" id="fmsg" aria-live="polite"></p></form></div>`);
- const fm=document.getElementById('fm'),fb=document.getElementById('fbtn'),chk=()=>{fb.disabled=![...fm.elements].filter(x=>x.required).every(x=>x.value.trim()&&x.checkValidity())};
- fm.addEventListener('input',chk);fm.addEventListener('change',chk);
- fm.addEventListener('submit',e=>{e.preventDefault();if(fb.disabled)return;fm.reset();chk();document.getElementById('fmsg').textContent='Recebido! Obrigada por compartilhar. Você terá um retorno pelo e-mail informado.'})}
+ <form id="fm" novalidate><label>Nome<input name="nome" autocomplete="name" required maxlength="200"></label><label>E-mail<input name="email" type="email" autocomplete="email" required maxlength="200"></label>
+ <label>O que você deseja?<select name="assunto" required><option value="" disabled selected>Selecione</option><option>Compartilhar impressos</option><option>Contar uma lembrança</option><option>Sugerir uma correção</option><option>Pedir a retirada de um conteúdo</option></select></label>
+ <label>Mensagem<textarea name="mensagem" required maxlength="5000" placeholder="Conte com detalhes o que deseja compartilhar ou solicitar."></textarea></label><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button class="btn" type="submit" id="fenv" disabled>Enviar</button><p class="note" id="fmsg" role="status" aria-live="polite"></p></form></div>`);
+ /* envio: serviço externo (Formspree). O endereço é preenchido pelo gerador; vazio = modo de teste, nada é enviado */
+ const FORM_URL='{{FORM_URL}}';
+ const fm=document.getElementById('fm'),fb=document.getElementById('fenv'),msg=document.getElementById('fmsg');let enviando=false;
+ const okEmail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+ const chk=()=>{fb.disabled=enviando||![...fm.elements].filter(x=>x.required).every(x=>x.value.trim()&&(x.type!=='email'||okEmail(x.value)))};
+ fm.addEventListener('input',()=>{msg.textContent='';chk()});fm.addEventListener('change',chk);
+ fm.addEventListener('submit',async e=>{e.preventDefault();chk();if(fb.disabled)return;
+  const fim=()=>{fm.reset();enviando=false;chk();msg.textContent='Recebido! Obrigada por compartilhar. Você terá um retorno pelo e-mail informado.'};
+  if(!FORM_URL||FORM_URL.startsWith('{{')){fim();return}
+  enviando=true;chk();
+  try{const dados=new FormData(fm);dados.append('_subject','Fagulha: '+fm.assunto.value);
+   const r=await fetch(FORM_URL,{method:'POST',body:dados,headers:{Accept:'application/json'}});
+   if(!r.ok)throw new Error(r.status);fim()}
+  catch(_){enviando=false;chk();msg.textContent='Não foi possível enviar agora. Confira a conexão e tente de novo em alguns minutos.'}})}
 let savedY=null,fromHome=false;
 document.addEventListener('click',e=>{if(e.target.closest('a[href^="#item-"]')&&!location.hash.startsWith('#item-')){savedY=scrollY;fromHome=true}},true);
 function upgrade(root){root.querySelectorAll('img[data-full]').forEach(im=>{const f=im.dataset.full;im.removeAttribute('data-full');const n=new Image();n.onload=()=>{im.src=f};n.src=f})}

@@ -27,6 +27,10 @@ CSV_URL = ("https://docs.google.com/spreadsheets/d/e/2PACX-1vRbjAu3tP5VZ6YOGFkQr
 
 SITE_URL = "https://yaslamoreira.github.io/fagulha/"
 
+# Endereço do formulário no Formspree (ex.: "https://formspree.io/f/abcdwxyz").
+# Vazio = formulário em modo de teste (não envia nada).
+FORM_URL = ""
+
 # Rótulo de procedência para cada conjunto (coluna "conjunto").
 # Para um conjunto novo, acrescente uma linha aqui.
 CONJUNTOS = {
@@ -304,7 +308,7 @@ def montar(acervo):
     dados = json.dumps(itens, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     if "/*DADOS*/[]" not in modelo:
         raise Problema("O arquivo modelo.html está sem o marcador /*DADOS*/[].")
-    html = modelo.replace("/*DADOS*/[]", dados).replace("{{SITE_URL}}", SITE_URL)
+    html = modelo.replace("/*DADOS*/[]", dados).replace("{{SITE_URL}}", SITE_URL).replace("{{FORM_URL}}", FORM_URL)
     # pré-carrega as capas da abertura (prioridade no carregamento)
     m = re.search(r"IDS=\{(.*?)\}", modelo)
     escolhidas = re.findall(r":'([^']+)'", m.group(1)) if m else []
