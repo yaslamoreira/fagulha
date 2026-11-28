@@ -811,7 +811,8 @@ function estadoImg(root){root.querySelectorAll('.pg img:not([data-e])').forEach(
 function upgrade(root){root.querySelectorAll('img[data-full]').forEach(im=>{const f=im.dataset.full;im.removeAttribute('data-full');carregar(f,()=>{im.src=f})})}
 function toast(t){let el=document.getElementById('toast');if(!el){el=document.createElement('div');el.id='toast';el.className='toast';el.setAttribute('role','status');el.setAttribute('aria-live','polite');document.body.appendChild(el)}
  el.textContent=t;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),2200)}
-function goBack(){if(fromHome)history.back();else location.hash='#inicio'}
+/* X do item: sempre vai para o início (no ponto do catálogo de onde a pessoa veio), sem voltar item por item */
+function goBack(){location.hash='#inicio'}
 function route(){
  setHome();
  let h=(location.hash||'#inicio').slice(1);
